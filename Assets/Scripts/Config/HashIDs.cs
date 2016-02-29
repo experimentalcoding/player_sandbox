@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Used to access variables in animator controller without typing name each time
 public class HashIDs : MonoBehaviour
 {
     [HideInInspector] public int angularSpeedFloat;

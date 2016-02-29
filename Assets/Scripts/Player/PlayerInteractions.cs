@@ -1,16 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// The PlayerInteractions class is mainly used to listen to animation events, 
+// before passing them through to the equipped spell, currently have just implemented FireAttack
+// It also retrieves player input and uses it to activate spells by either 
+// toggling on the force field directly, or triggering an animation state change on the player animator controller
 public class PlayerInteractions : MonoBehaviour
 {
-    // Useful to query 
-    public Transform leftHand;  
-    public Transform rightHand; 
-
     private Animator m_Animator;
     private HashIDs m_HashIDs;
-
-    // Whether or not force field is active or not
 
     // Spell effect scripts
     public FireAttack fireAttack;
@@ -20,6 +18,8 @@ public class PlayerInteractions : MonoBehaviour
     {
         // Get required references
         m_Animator = GetComponent<Animator>();
+
+        // Retrieve HashIDs instance, relies on gameController tag being set in editor
         m_HashIDs = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<HashIDs>();
     }
 
@@ -31,8 +31,8 @@ public class PlayerInteractions : MonoBehaviour
         // Trigger transition to attacking state in animator controller
         m_Animator.SetBool(m_HashIDs.attackingBool, attack);
 
-        // If player presses 
-        if (Input.GetButtonDown("Fire2"))
+        // If player presses left shift key or X button on controller, toggle force field
+        if (Input.GetButtonDown("Fire3"))
         {
             // Toggle force field on/off, can only be active if fire attack is not
             forceField.Enabled = (!forceField.Enabled);

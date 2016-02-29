@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// The PlayerMovement class is based on the class of the same name from the Unity 4 'Stealth' tutorial.
+// It sets the 'Speed' and 'AngularSpeed' variables in the player animator controller used to blend
+// between the animations in a 2D cartesian grid.
 public class PlayerMovement : MonoBehaviour
 {
     public float turnSmoothing = 15f;
@@ -34,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     void MoveCharacter(float horizontal, float vertical)
     {
-        // Pnly update movement if not casting a spell
+        // Only update movement if not casting a spell
         if (m_FireAttack.State != FireAttack.SpellState.Activating)
         {
             if (horizontal != 0f || vertical != 0f)

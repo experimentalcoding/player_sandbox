@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// The ForceField class toggles on a transparent sphere with an animated procedural texture applied
 public class ForceField : MonoBehaviour {
 
     // Property which specifies if ForceField is active.

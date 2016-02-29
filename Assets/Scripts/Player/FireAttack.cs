@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// spell reference: https://dl.dropboxusercontent.com/u/45747146/WebPlayer/NWParticleFX03/NWParticleFX03.html
+// The FireAttack class is responsible for triggering a column of fire from the players hands at the correct time.
+// It achieves this by first toggling on small flame particle systems attached to characters hands (fireBallLeft and fireBallRight).
+// OnSpellStateEvent is called from PlayerInteractions::OnAnimationEvent and through this, 
+// can hook into animation events from the players animation controller.
+//
+// When adding new spells a new 'Spell' interface should be added that each type of spell conforms to.
 public class FireAttack : MonoBehaviour
 {
     // The state of the spell is controlled by animation events.
@@ -12,11 +17,17 @@ public class FireAttack : MonoBehaviour
 
     // how fast should column of fire extend from players arms
     public float fireColumnSpeed = 5f;
-
-    // parameters for controlling how the column of fire should behave
+    
+    // how many seconds should pass before each point light is created for fire light effect
     public float lightDropDelay = .15f;
+
+    // how many units should front of flame column should travel before disabling a light
     public float lightDisableThresholdDistance = 2f;
+
+    // used to scale the speed at which a light will fade to 0 intensity when deactivated
     public float lightFadeSpeedMultiplier = 3f;
+
+    // maximum intensity that lights should reach to light up column of fire
     public float maxLightIntensity = 6f;
 
     // fireBallLeft and fireBallRight are particle systems that player holds in hand to charge up spell
@@ -30,26 +41,31 @@ public class FireAttack : MonoBehaviour
     // flameLight is prefab for point lights that are dropped as flame column moves forward
     public GameObject flameLight;
 
-    // Private variables used for tracking fire effect behaviour
+    // private variables used for tracking fire effect behaviour
+    private Transform m_PlayerTransform;
     private Vector3 m_SpellActivatePosition;
     private Vector3 m_SpellVelocity;
     private GameObject m_ActiveFireBeam;
     private float m_TimeBeforeAddLight;
 
-    // Player
-    private GameObject m_PlayerGameObject;
-    private Transform m_PlayerTransform;
+    // OnSpellStateEvent parses the eventParameter string as the SpellState enum,
+    // and is used to change the state of the fire effect to be either charging up, activating, or idle.
+    public void OnSpellStateEvent(string eventParameter)
+    {
+        // Parse state as enum and handle state change
+        SpellState state = (SpellState)System.Enum.Parse(typeof(SpellState), eventParameter);
+        SetSpellState(state);
+    }
 
     void Awake()
     {
-        m_PlayerGameObject = GameObject.FindGameObjectWithTag(Tags.player);
-        m_PlayerTransform = m_PlayerGameObject.GetComponent<Transform>();
+        // store references to player game
+        GameObject playerGameObject = GameObject.FindGameObjectWithTag(Tags.player);
+        m_PlayerTransform = playerGameObject.GetComponent<Transform>();
     }
 
     void Update()
     {
-        CheckDestroyLights();
-
         switch (m_SpellState)
         {
             case SpellState.Charging:
@@ -64,25 +80,15 @@ public class FireAttack : MonoBehaviour
                 {
                     AddFlameLight(m_ActiveFireBeam.transform.position);
                 }
-
-                // Check if any lights need to be removed
-                CheckDestroyLights();
-
                 break;
             case SpellState.Idle:
                 break;
             default:
                 break;
         }
-    }
 
-    public void OnSpellStateEvent(string eventParameter)
-    {
-        Debug.Log(eventParameter);
-
-        // Parse state as enum and handle state change
-        SpellState state = (SpellState)System.Enum.Parse(typeof(SpellState), eventParameter);
-        SetSpellState(state);
+        // Finally, check if any lights should be destroyed
+        CheckDestroyLights();
     }
 
     void SetSpellState(SpellState state)
@@ -99,12 +105,20 @@ public class FireAttack : MonoBehaviour
         switch (state)
         {
             case SpellState.Charging:
+
+                // state has been set to charging, so activate balls of flame in characters hands
                 SetFireBallsActive(true);
+
                 break;
             case SpellState.Activating:
+
+                // instantiate flame column prefab and set it moving in direction of spell
                 AddFlameColumn();
+
                 break;
             case SpellState.Idle:
+
+                // disable fire balls and destroy flame column
                 SetFireBallsActive(false);
                 if (m_ActiveFireBeam)
                 {
@@ -126,9 +140,15 @@ public class FireAttack : MonoBehaviour
     {
         // Get the average position of the 2 charging fireballs to decide where to start the flame column
         m_SpellActivatePosition = (fireBallLeft.transform.position + fireBallRight.transform.position) / 2f;
+
+        // use the players forward direction as velocity for fire column
         m_SpellVelocity = m_PlayerTransform.forward;
+
+        // create fire beam instance, will be moved forward in Update
         m_ActiveFireBeam = Instantiate(fireBeam, m_SpellActivatePosition, Quaternion.identity) as GameObject;
         m_ActiveFireBeam.SetActive(true);
+
+        // store the current time for deciding when to add a new point light for illuminating fire
         m_TimeBeforeAddLight = Time.time;
     }
 
@@ -148,12 +168,20 @@ public class FireAttack : MonoBehaviour
                                             null ;
 
         float lightDisableThresholdSqrd = Mathf.Pow(lightDisableThresholdDistance, 2f);
+
+        // loop over each point light child in the light column
         Transform lightColumnTransform = lightColumn.transform;
         foreach (Transform child in lightColumnTransform)
         {
+            // safety against any child game objects that do not have light components
+            Light flameLight = child.GetComponent<Light>();
+            if (!flameLight)
+            {
+                continue;
+            }
+
             // destroy light if either no active fire beam, or it is not within range anymore,
             // using squared distance to see if light is within threshold distance
-            Light flameLight = child.GetComponent<Light>();
             if (!activeFireBeamTransform ||
                 Vector3.SqrMagnitude(activeFireBeamTransform.transform.position - child.position) > lightDisableThresholdSqrd)
             {

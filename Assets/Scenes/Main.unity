@@ -189,6 +189,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 561498849}
   m_RootOrder: 2
+--- !u!1 &145269236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 145269237}
+  m_Layer: 0
+  m_Name: spell_camera_anchors
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &145269237
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 145269236}
+  m_LocalRotation: {x: 0, y: -0.066349074, z: 0, w: 0.9977965}
+  m_LocalPosition: {x: 0.6289482, y: 0, z: 1.0247898}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 301060708}
+  - {fileID: 1206389640}
+  - {fileID: 1329003569}
+  m_Father: {fileID: 1711003975}
+  m_RootOrder: 12
 --- !u!1 &197024899
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,7 +357,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 301060708}
   m_Layer: 0
-  m_Name: spell_camera_anchor
+  m_Name: anchor_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -339,12 +369,12 @@ Transform:
   m_PrefabParentObject: {fileID: 465172, guid: 96c7ab443b58b9d4680f2edb3a6bfa72, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 301060707}
-  m_LocalRotation: {x: 0.087412804, y: -2.3646862e-11, z: 0.011676764, w: 0.99610376}
-  m_LocalPosition: {x: 0.33999953, y: 2.32, z: -2.95}
+  m_LocalRotation: {x: 0.088189244, y: 0.13331267, z: -0.00012710644, w: 0.9871426}
+  m_LocalPosition: {x: -2.1845481, y: 2.32, z: -3.8998802}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1711003975}
-  m_RootOrder: 12
+  m_Father: {fileID: 145269237}
+  m_RootOrder: 0
 --- !u!1 &462629800
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,7 +567,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 55ec8b440a72e73489dfb2392ac2dab3, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 13700000, guid: 55ec8b440a72e73489dfb2392ac2dab3, type: 3}
       propertyPath: m_ReflectionProbeUsage
@@ -666,6 +696,33 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 55ec8b440a72e73489dfb2392ac2dab3, type: 3}
   m_IsPrefabParent: 0
+--- !u!1 &1206389639
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 190258, guid: 96c7ab443b58b9d4680f2edb3a6bfa72, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1206389640}
+  m_Layer: 0
+  m_Name: anchor_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1206389640
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 465172, guid: 96c7ab443b58b9d4680f2edb3a6bfa72, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1206389639}
+  m_LocalRotation: {x: 0.010952127, y: -0.9633105, z: 0.08750714, w: 0.2534867}
+  m_LocalPosition: {x: 1.15, y: 2, z: 2.23}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 145269237}
+  m_RootOrder: 1
 --- !u!1 &1223739932
 GameObject:
   m_ObjectHideFlags: 0
@@ -2306,6 +2363,33 @@ ParticleSystem:
     subEmitterCollision1: {fileID: 0}
     subEmitterDeath: {fileID: 0}
     subEmitterDeath1: {fileID: 0}
+--- !u!1 &1329003568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 190258, guid: 96c7ab443b58b9d4680f2edb3a6bfa72, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1329003569}
+  m_Layer: 0
+  m_Name: anchor_3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1329003569
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 465172, guid: 96c7ab443b58b9d4680f2edb3a6bfa72, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1329003568}
+  m_LocalRotation: {x: 0.116352685, y: -0.18031548, z: 0.0013010893, w: 0.976702}
+  m_LocalPosition: {x: 4.3600025, y: 2.7000003, z: -3.2099953}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 145269237}
+  m_RootOrder: 2
 --- !u!1 &1368343885
 GameObject:
   m_ObjectHideFlags: 0
@@ -4174,7 +4258,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smooth: 2.5
-  spellCameraAnchor: {fileID: 301060707}
+  spellCameraAnchors:
+  - {fileID: 301060707}
+  - {fileID: 1206389639}
+  - {fileID: 1329003568}
 --- !u!1 &1984373703
 GameObject:
   m_ObjectHideFlags: 0
